@@ -1,5 +1,5 @@
 import { ColumnType } from "@/app/types";
-import Column from "./column";
+import Column from "@/app/components/kanban/board-columns/column";
 
 const columns: ColumnType[] = [
   {

@@ -1,5 +1,5 @@
 import BoardColumns from "./board-columns";
-import Filters from "./filters";
+import Filters from "@/app/components/kanban/toolbar";
 
 const KanbanBoard = () => {
   return (

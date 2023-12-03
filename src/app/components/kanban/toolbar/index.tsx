@@ -14,4 +14,4 @@ const Filters = () => {
   );
 };
 
-export default Filters
+export default Filters;
