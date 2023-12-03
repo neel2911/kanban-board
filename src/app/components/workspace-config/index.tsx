@@ -1,6 +1,4 @@
-import { NextPage } from "next";
-
-const NewWorkspace: NextPage = () => {
+const WorkspaceConfig: React.FC = () => {
   return (
     <main className="py-8">
       <div className="max-w-6xl mx-auto">
@@ -40,4 +38,4 @@ const NewWorkspace: NextPage = () => {
   );
 };
 
-export default NewWorkspace;
+export default WorkspaceConfig;

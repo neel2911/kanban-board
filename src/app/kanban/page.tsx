@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import KanbanBoard from "../components/kanban";
+import KanbanBoard from "@/app/components/kanban";
 
 const KanbanPage: NextPage = () => {
   return <KanbanBoard />;

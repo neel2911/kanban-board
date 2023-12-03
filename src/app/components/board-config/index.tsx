@@ -1,7 +1,6 @@
-import { NextPage } from "next";
 import Link from "next/link";
 
-const NewBoard: NextPage = () => {
+const BoardConfig: React.FC = () => {
   return (
     <main className="py-8">
       <div className="max-w-6xl mx-auto">
@@ -88,4 +87,4 @@ const NewBoard: NextPage = () => {
   );
 };
 
-export default NewBoard;
+export default BoardConfig;
