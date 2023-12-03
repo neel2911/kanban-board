@@ -21,19 +21,21 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <header className="bg-white shadow-md p-4 flex justify-between items-center sticky top-0">
-          <h1 className="text-2xl font-bold">Kanbanize</h1>
+          <Link className="text-2xl font-bold" href="/">
+            Kanbanize
+          </Link>
           <div className="flex items-center space-x-4">
             <Link
               className="text-gray-700 hover:text-gray-900"
               href="/board-config"
             >
-              New Kanban
+              Board
             </Link>
             <Link
               className="text-gray-700 hover:text-gray-900"
               href="/workspace"
             >
-              New WorkSpace
+              Workspace
             </Link>
             <div className="flex items-center space-x-2">
               <img
