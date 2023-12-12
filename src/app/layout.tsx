@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import DialogProvider from "@/app/context/DialogContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -19,36 +20,38 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <header className="bg-white shadow-md p-4 flex justify-between items-center sticky top-0">
-          <Link className="text-2xl font-bold" href="/">
-            Kanbanize
-          </Link>
-          <div className="flex items-center space-x-4">
-            <Link
-              className="text-gray-700 hover:text-gray-900"
-              href="/board-config"
-            >
-              Board
+      <DialogProvider>
+        <body className={inter.className}>
+          <header className="bg-white shadow-md p-4 flex justify-between items-center sticky top-0">
+            <Link className="text-2xl font-bold" href="/">
+              Kanbanize
             </Link>
-            <Link
-              className="text-gray-700 hover:text-gray-900"
-              href="/workspace"
-            >
-              Workspace
-            </Link>
-            <div className="flex items-center space-x-2">
-              <img
-                src="https://via.placeholder.com/30"
-                alt="User Avatar"
-                className="rounded-full h-8 w-8"
-              />
-              <span className="text-gray-700">John Doe</span>
+            <div className="flex items-center space-x-4">
+              <Link
+                className="text-gray-700 hover:text-gray-900"
+                href="/board-setting"
+              >
+                Board
+              </Link>
+              <Link
+                className="text-gray-700 hover:text-gray-900"
+                href="/workspace-setting"
+              >
+                Workspace
+              </Link>
+              <div className="flex items-center space-x-2">
+                <img
+                  src="https://via.placeholder.com/30"
+                  alt="User Avatar"
+                  className="rounded-full h-8 w-8"
+                />
+                <span className="text-gray-700">John Doe</span>
+              </div>
             </div>
-          </div>
-        </header>
-        {children}
-      </body>
+          </header>
+          {children}
+        </body>
+      </DialogProvider>
     </html>
   );
 }

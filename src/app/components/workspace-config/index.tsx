@@ -1,18 +1,32 @@
+"use client";
+import { useForm, SubmitHandler } from "react-hook-form";
+
+type WorkspaceConfigType = {
+  name: string;
+  description: string;
+};
+
+const onSubmitHandler: SubmitHandler<WorkspaceConfigType> = (formValues) => {
+  console.log(formValues);
+};
+
 const WorkspaceConfig: React.FC = () => {
+  const { register, handleSubmit } = useForm<WorkspaceConfigType>();
+
   return (
     <main className="py-8">
       <div className="max-w-6xl mx-auto">
         <section className="bg-white rounded-md shadow p-6 mb-6 relative">
           <h2 className="text-lg font-semibold mb-4">Workspace Settings</h2>
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSubmit(onSubmitHandler)}>
             <div className="flex items-center">
               <label htmlFor="workspaceName" className="w-36">
                 Name:
               </label>
               <input
-                type="text"
                 id="workspaceName"
                 className="border border-gray-300 rounded-md px-2 py-1 flex-1"
+                {...register("name")}
               />
             </div>
             <div className="flex items-center">
@@ -23,6 +37,7 @@ const WorkspaceConfig: React.FC = () => {
                 id="workspaceDesc"
                 className="border border-gray-300 rounded-md px-2 py-1 flex-1"
                 rows={3}
+                {...register("description")}
               ></textarea>
             </div>
             <div className="flex items-center justify-end">
@@ -32,7 +47,6 @@ const WorkspaceConfig: React.FC = () => {
             </div>
           </form>
         </section>
-        {/* Other sections for configuring lists, labels, etc. */}
       </div>
     </main>
   );
