@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import DialogProvider from "@/app/context/DialogContext";
+import PubSubProvider from "@/app/context/PubSubContext";
+import StoreProvider from "@/app/StoreProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -20,38 +22,42 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <DialogProvider>
-        <body className={inter.className}>
-          <header className="bg-white shadow-md p-4 flex justify-between items-center sticky top-0">
-            <Link className="text-2xl font-bold" href="/">
-              Kanbanize
-            </Link>
-            <div className="flex items-center space-x-4">
-              <Link
-                className="text-gray-700 hover:text-gray-900"
-                href="/board-setting"
-              >
-                Board
-              </Link>
-              <Link
-                className="text-gray-700 hover:text-gray-900"
-                href="/workspace-setting"
-              >
-                Workspace
-              </Link>
-              <div className="flex items-center space-x-2">
-                <img
-                  src="https://via.placeholder.com/30"
-                  alt="User Avatar"
-                  className="rounded-full h-8 w-8"
-                />
-                <span className="text-gray-700">John Doe</span>
-              </div>
-            </div>
-          </header>
-          {children}
-        </body>
-      </DialogProvider>
+      <StoreProvider>
+        <PubSubProvider>
+          <DialogProvider>
+            <body className={inter.className}>
+              <header className="bg-white shadow-md p-4 flex justify-between items-center sticky top-0">
+                <Link className="text-2xl font-bold" href="/">
+                  Kanbanize
+                </Link>
+                <div className="flex items-center space-x-4">
+                  <Link
+                    className="text-gray-700 hover:text-gray-900"
+                    href="/board-setting"
+                  >
+                    Board
+                  </Link>
+                  <Link
+                    className="text-gray-700 hover:text-gray-900"
+                    href="/workspace-setting"
+                  >
+                    Workspace
+                  </Link>
+                  <div className="flex items-center space-x-2">
+                    <img
+                      src="https://via.placeholder.com/30"
+                      alt="User Avatar"
+                      className="rounded-full h-8 w-8"
+                    />
+                    <span className="text-gray-700">John Doe</span>
+                  </div>
+                </div>
+              </header>
+              {children}
+            </body>
+          </DialogProvider>
+        </PubSubProvider>
+      </StoreProvider>
     </html>
   );
 }

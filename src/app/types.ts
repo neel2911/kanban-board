@@ -9,10 +9,23 @@ export type ColumnType = {
   tasks: TaskType[];
 };
 
-export type Dialog = {
-  title: string;
+export type DialogPropType = {
+  title: JSX.Element;
   body?: JSX.Element;
   footer: JSX.Element;
+};
+
+type DialogCloseActionType = "SUBMIT" | "CANCEL" | "CLOSE";
+
+type CloseDialog = <T>(param: {
+  type: DialogCloseActionType;
+  data?: T;
+}) => void;
+
+export type BaseDialogProps = {
+  title: string;
+  description?: string;
+  closeDialog: CloseDialog;
 };
 
 export type DialogType = "CONFIRM" | "CREATE_TASK" | "VIEW_TASK";
@@ -22,4 +35,18 @@ export type DialogContextType = {
   type: DialogType;
   openDialog: (type: DialogType) => void;
   closeDialog: Function;
+};
+
+export type EventNameType = string;
+
+export type PubSubContextType = {
+  subscribe?: <T>(
+    eventName: EventNameType,
+    callback: (data: T) => void
+  ) => Function;
+  unsubscribe?: <T>(
+    eventName: EventNameType,
+    callback: Function | null
+  ) => void;
+  publish?: <T>(eventName: EventNameType, data: T) => void;
 };

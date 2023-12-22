@@ -1,6 +1,5 @@
 import BoardColumns from "./board-columns";
 import Filters from "@/app/components/kanban/toolbar";
-import Dialog from "@/app/components/shared/dialog";
 
 const KanbanBoard = () => {
   return (
@@ -10,7 +9,6 @@ const KanbanBoard = () => {
         <div className="max-w-6xl mx-auto flex space-x-4">
           <BoardColumns />
         </div>
-        {/* <Dialog /> */}
       </main>
     </div>
   );
