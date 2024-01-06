@@ -1,6 +1,18 @@
-import { ReactElement } from "react";
-
 export type TaskType = { title: string; description: string };
+
+export type WorkspaceConfigType = {
+  _id: string;
+  name: string;
+  description: string;
+};
+
+export type BoardConfigType = {
+  name: string;
+  description: string;
+  visibility: "public" | "private";
+  workspace: string;
+  columns: Array<{ id: number; value: string; order: number }>;
+};
 
 export type ColumnType = {
   id: number;

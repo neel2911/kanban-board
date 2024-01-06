@@ -1,11 +1,32 @@
-const Dashboard: React.FC<any> = () => {
+"use client";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { getAllWorkSpaces } from "@/lib/modules/workspace/reducer";
+import { getAllWorkSpacesSelector } from "@/lib/modules/workspace/selector";
+import { useEffect, useCallback } from "react";
+import Workspaces from "./workspaces";
+
+const Dashboard: React.FC = () => {
+  const workspaces = useAppSelector(getAllWorkSpacesSelector);
+  const dispatch = useAppDispatch();
+  const fetchWorkspaces = useCallback(async () => {
+    const res = await fetch("api/workspaces", {
+      method: "GET",
+    });
+    const data = await res.json();
+    dispatch(getAllWorkSpaces(data));
+  }, [dispatch]);
+
+  useEffect(() => {
+    fetchWorkspaces();
+  }, [fetchWorkspaces]);
+
+  console.log("workspaces :: ", workspaces);
+
   return (
     <div className="max-w-6xl mx-auto grid grid-cols-2 gap-4">
-      <div className="bg-gray-200 rounded-md p-4">
-        <h2 className="text-lg font-semibold mb-2">Category 1</h2>
-        <p>Content for Category 1</p>
-      </div>
-      {/* Other categories */}
+      {workspaces.map((workspace) => (
+        <Workspaces key={workspace._id} {...workspace} />
+      ))}
     </div>
   );
 };

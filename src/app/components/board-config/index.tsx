@@ -1,14 +1,7 @@
 "use client";
+import { BoardConfigType } from "@/app/types";
 import Link from "next/link";
 import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
-
-type BoardConfigType = {
-  name: string;
-  description: string;
-  visibility: "public" | "private";
-  workspace: string;
-  columns: Array<{ value: string }>;
-};
 
 const onSubmitHandler: SubmitHandler<BoardConfigType> = (formValues) => {
   console.log(formValues);
@@ -106,7 +99,9 @@ const BoardConfig: React.FC = () => {
                   </button>
                   <button
                     className="bg-gray-300 text-gray-700 rounded-md px-3 py-1 ml-2 shadow-md hover:bg-gray-400"
-                    onClick={() => append({ value: "" })}
+                    onClick={() =>
+                      append({ id: index, value: "", order: index })
+                    }
                   >
                     +
                   </button>

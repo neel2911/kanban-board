@@ -1,13 +1,15 @@
 "use client";
+import { WorkspaceConfigType } from "@/app/types";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-type WorkspaceConfigType = {
-  name: string;
-  description: string;
-};
-
-const onSubmitHandler: SubmitHandler<WorkspaceConfigType> = (formValues) => {
-  console.log(formValues);
+const onSubmitHandler: SubmitHandler<WorkspaceConfigType> = async (
+  formValues
+) => {
+  const res = await fetch("api/workspaces", {
+    method: "POST",
+    body: JSON.stringify(formValues),
+  });
+  console.log(res.body);
 };
 
 const WorkspaceConfig: React.FC = () => {
