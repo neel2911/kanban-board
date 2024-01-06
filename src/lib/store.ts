@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import rootReducer from "./modules";
 
 export const makeStore = () => {
   return configureStore({
-    reducer: {},
+    reducer: rootReducer,
+    devTools: true,
   });
 };
 
