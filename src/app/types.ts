@@ -29,10 +29,13 @@ export type DialogPropType = {
 
 type DialogCloseActionType = "SUBMIT" | "CANCEL" | "CLOSE";
 
-type CloseDialog = <T>(param: {
+export type ModalType = "ADD" | "EDIT";
+
+export type Param<T> = {
   type: DialogCloseActionType;
-  data?: T;
-}) => void;
+} & ({ type: "CANCEL" | "CLOSE" } | { type: "SUBMIT"; data: T });
+
+type CloseDialog = <T>(param: Param<T>) => void;
 
 export type BaseDialogProps = {
   title: string;

@@ -1,8 +1,8 @@
 import { NextPage } from "next";
-import WorkspaceConfig from "@/app/components/workspace-config";
+import Workspaces from "@/app/components/workspaces";
 
 const NewWorkspaceSettingPage: NextPage = () => {
-  return <WorkspaceConfig />;
+  return <Workspaces />;
 };
 
 export default NewWorkspaceSettingPage;

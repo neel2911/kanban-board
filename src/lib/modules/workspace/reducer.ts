@@ -29,7 +29,6 @@ const workspaceSlice = createSlice({
       state,
       action: PayloadAction<{ workspaces: WorkspaceConfigType[] }>
     ) => {
-      debugger
       const { payload } = action;
       state = payload.workspaces;
       return state;

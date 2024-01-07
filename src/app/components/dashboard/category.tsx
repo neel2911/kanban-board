@@ -1,6 +1,6 @@
 import { WorkspaceConfigType } from "@/app/types";
 
-const Workspaces: React.FC<WorkspaceConfigType> = (props) => {
+const Category: React.FC<WorkspaceConfigType> = (props) => {
   const { _id, description, name } = props;
   return (
     <div className="bg-gray-200 rounded-md p-4">
@@ -10,4 +10,4 @@ const Workspaces: React.FC<WorkspaceConfigType> = (props) => {
   );
 };
 
-export default Workspaces;
+export default Category;

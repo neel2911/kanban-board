@@ -39,7 +39,7 @@ export default function RootLayout({
                   </Link>
                   <Link
                     className="text-gray-700 hover:text-gray-900"
-                    href="/workspace-setting"
+                    href="/workspaces"
                   >
                     Workspace
                   </Link>

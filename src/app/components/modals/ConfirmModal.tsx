@@ -37,18 +37,19 @@ const TitleEl: React.FC<{
 
 const FooterEl: React.FC<{
   closeDialog: BaseDialogProps["closeDialog"];
+  data: any;
 }> = (props) => {
-  const { closeDialog } = props;
+  const { closeDialog, data } = props;
   return (
     <>
       <button
-        onClick={() => closeDialog<boolean>({ type: "CANCEL", data: true })}
+        onClick={() => closeDialog<boolean>({ type: "SUBMIT", data })}
         className="bg-red-500 text-white rounded-md px-4 py-2 hover:bg-red-600 mr-2"
       >
         Confirm
       </button>
       <button
-        onClick={() => closeDialog<boolean>({ type: "CANCEL", data: false })}
+        onClick={() => closeDialog<boolean>({ type: "CANCEL" })}
         className="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600"
       >
         Cancel
@@ -57,16 +58,17 @@ const FooterEl: React.FC<{
   );
 };
 
-const ConfirmDialog: React.FC<BaseDialogProps> = (props) => {
+const ConfirmDialog: React.FC<BaseDialogProps & { data: any }> = (props) => {
   const {
     title = "Delete",
     description = "Are you sure want do delete?",
     closeDialog,
+    data,
   } = props;
   return (
     <Dialog
       title={<TitleEl title={title} closeDialog={closeDialog} />}
-      footer={<FooterEl closeDialog={closeDialog} />}
+      footer={<FooterEl closeDialog={closeDialog} data={data} />}
     >
       <BodyEl description={description} />
     </Dialog>
