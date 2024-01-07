@@ -1,6 +1,5 @@
 import { RootState } from "@/lib/store";
-import { reducerSliceName } from "@/lib/modules/workspace/reducer";
+import { globalizedWorkspaceSelectors } from "@/lib/modules/workspace/reducer";
 
-export const getAllWorkSpacesSelector = (state: RootState) => {
-  return state[reducerSliceName];
-};
+export const getAllWorkSpacesSelector = (state: RootState) =>
+  globalizedWorkspaceSelectors.selectAll(state);

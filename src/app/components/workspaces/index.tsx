@@ -1,7 +1,7 @@
 "use client";
 import useGetWorkspaces from "@/app/hooks/useGetWorkspaces";
-import { ModalType, Param, WorkspaceConfigType } from "@/app/types";
-import { useAppSelector } from "@/lib/hooks";
+import { ModalType, WorkspaceConfigType } from "@/app/types";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getAllWorkSpacesSelector } from "@/lib/modules/workspace/selector";
 import {
   flexRender,
@@ -13,31 +13,68 @@ import useCreateModifyWorkspaceModalConfig from "@/app/hooks/useCreateModifyWork
 import columns from "@/app/components/workspaces/columns";
 import useConfirmModalConfig from "@/app/hooks/useConfirmModalConfig";
 import ConfirmDialog from "../modals/ConfirmModal";
+import {
+  addWorkspace,
+  deleteWorkspace,
+  updateWorkspace,
+} from "@/lib/modules/workspace/reducer";
 
+const requestConfig = (type: ModalType, formValues: WorkspaceConfigType) => {
+  if (type === "ADD") {
+    return {
+      url: "api/workspaces",
+      method: "POST",
+    };
+  }
+  return {
+    url: `api/workspaces/${formValues._id}`,
+    method: "PUT",
+  };
+};
 const onSubmitHandler = async (
   type: ModalType,
   formValues: WorkspaceConfigType
 ) => {
-  const apiPath =
-    type === "ADD" ? "api/workspaces" : `api/workspaces/${formValues._id}`;
-  const res = await fetch(apiPath, {
-    method: "POST",
-    body: JSON.stringify(formValues),
-  });
+  const { url, method } = requestConfig(type, formValues);
 
-  console.log(res);
+  try {
+    const res = await fetch(url, {
+      method,
+      body: JSON.stringify(formValues),
+    });
+    const data = await res.json();
+    return {
+      status: "OK",
+      data,
+    };
+  } catch (e) {
+    return {
+      status: "ERROR",
+      data: e,
+    };
+  }
 };
 
 const onDeleteHandler = async (formValues: WorkspaceConfigType) => {
-  console.log("formValues :: ", formValues);
-  const res = await fetch(`api/workspaces/${formValues._id}`, {
-    method: "DELETE",
-  });
-
-  console.log(res);
+  try {
+    const res = await fetch(`api/workspaces/${formValues._id}`, {
+      method: "DELETE",
+    });
+    const data = await res.json();
+    return {
+      status: "OK",
+      data,
+    };
+  } catch (e) {
+    return {
+      status: "ERROR",
+      data: e,
+    };
+  }
 };
 
 const Workspaces: React.FC = () => {
+  const dispath = useAppDispatch();
   const workspaces = useAppSelector(getAllWorkSpacesSelector);
 
   const {
@@ -130,11 +167,21 @@ const Workspaces: React.FC = () => {
           title={createModifyWorkspaceModalTitle}
           type={modalType}
           data={createModifyWorkspaceModalFormData}
-          closeDialog={(action) => {
+          closeDialog={async (action) => {
             if (action.type === "SUBMIT") {
-              onSubmitHandler(modalType, action.data as WorkspaceConfigType);
+              const res = await onSubmitHandler(
+                modalType,
+                action.data as WorkspaceConfigType
+              );
+              if (res.status === "OK") {
+                onCreateModifyWorkspaceModalStateChange({ action: "CLOSE" });
+                if (modalType === "EDIT") {
+                  dispath(updateWorkspace(res.data));
+                } else {
+                  dispath(addWorkspace(res.data));
+                }
+              }
             }
-            onCreateModifyWorkspaceModalStateChange({ action: "CLOSE" });
           }}
         />
       )}
@@ -143,11 +190,16 @@ const Workspaces: React.FC = () => {
           title={confirmModalTitle}
           description={confirmModalDescription}
           data={confirmModalFormData}
-          closeDialog={(action) => {
+          closeDialog={async (action) => {
             if (action.type === "SUBMIT") {
-              onDeleteHandler(action.data as WorkspaceConfigType);
+              const res = await onDeleteHandler(
+                action.data as WorkspaceConfigType
+              );
+              if (res.status === "OK") {
+                onConfirmModalStateChange({ action: "CLOSE" });
+                dispath(deleteWorkspace(res.data));
+              }
             }
-            onConfirmModalStateChange({ action: "CLOSE" });
           }}
         />
       )}

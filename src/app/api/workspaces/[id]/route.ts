@@ -12,9 +12,8 @@ export const GET = async (req: Request, { params }: ParamType) => {
 export const PUT = async (req: Request, { params }: ParamType) => {
   const workspace = await req.json();
   await connectDB();
-
   const updatedWorkspace = await Workspace.findByIdAndUpdate(
-    { id: params.id },
+    { _id: params.id },
     {
       ...workspace,
     },
@@ -22,12 +21,15 @@ export const PUT = async (req: Request, { params }: ParamType) => {
       new: true,
     }
   );
-  Response.json({ workspace: updatedWorkspace });
+  return Response.json({ workspace: updatedWorkspace });
 };
 
 export const DELETE = async (req: Request, { params }: ParamType) => {
   await connectDB();
 
-  const updatedWorkspace = await Workspace.findByIdAndDelete({ id: params.id });
-  Response.json({ workspace: updatedWorkspace });
+  const deletedWorkspace = await Workspace.findByIdAndDelete({
+    _id: params.id,
+  });
+
+  return Response.json({ workspace: deletedWorkspace });
 };

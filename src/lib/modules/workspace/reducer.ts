@@ -1,42 +1,69 @@
 import { WorkspaceConfigType } from "@/app/types";
+import { RootState } from "@/lib/store";
 import {
-  type Action,
-  ActionCreator,
   createSlice,
-  ActionCreatorWithPayload,
+  createEntityAdapter,
   PayloadAction,
 } from "@reduxjs/toolkit";
 
 export const reducerSliceName = "workspace";
-export type State = WorkspaceConfigType;
 
-const initialState: State[] = [];
+const workspaceAdapter = createEntityAdapter({
+  selectId: (workspace: WorkspaceConfigType) => workspace._id,
+  sortComparer: (a, b) => a.name.localeCompare(b.name),
+});
 
 const workspaceSlice = createSlice({
   name: reducerSliceName,
-  initialState: initialState,
+  initialState: workspaceAdapter.getInitialState(),
   reducers: {
-    addWorkspace: (state, action) => {
-      return state;
-    },
-    deleteWorkspace: (state, action) => {
-      return state;
-    },
-    getWorkSpace: (state, action) => {
-      return state;
-    },
-    getAllWorkSpaces: (
+    addWorkspace: (
       state,
-      action: PayloadAction<{ workspaces: WorkspaceConfigType[] }>
+      action: PayloadAction<{ workspace: WorkspaceConfigType }>
     ) => {
-      const { payload } = action;
-      state = payload.workspaces;
-      return state;
+      const {
+        payload: { workspace },
+      } = action;
+      console.log("payload", workspace);
+      workspaceAdapter.addOne(state, workspace);
     },
+    updateWorkspace: (
+      state,
+      action: PayloadAction<{ workspace: WorkspaceConfigType }>
+    ) => {
+      const {
+        payload: { workspace },
+      } = action;
+
+      workspaceAdapter.updateOne(state, {
+        id: workspace._id,
+        changes: workspace,
+      });
+    },
+    deleteWorkspace: (
+      state,
+      action: PayloadAction<{ workspace: WorkspaceConfigType }>
+    ) => {
+      const {
+        payload: {
+          workspace: { _id },
+        },
+      } = action;
+      workspaceAdapter.removeOne(state, _id);
+    },
+    getAllWorkSpaces: workspaceAdapter.setMany,
   },
 });
 
-export const { addWorkspace, deleteWorkspace, getWorkSpace, getAllWorkSpaces } =
-  workspaceSlice.actions;
+export const {
+  addWorkspace,
+  deleteWorkspace,
+  getAllWorkSpaces,
+  updateWorkspace,
+} = workspaceSlice.actions;
+
+export const globalizedWorkspaceSelectors = workspaceAdapter.getSelectors(
+  (state: RootState) => state[reducerSliceName]
+);
 
 export default workspaceSlice.reducer;

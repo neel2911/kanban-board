@@ -9,7 +9,8 @@ const useGetWorkspaces = () => {
       method: "GET",
     });
     const data = await res.json();
-    dispatch(getAllWorkSpaces(data));
+    const { workspaces } = data;
+    dispatch(getAllWorkSpaces(workspaces));
   }, [dispatch]);
 
   useEffect(() => {
